@@ -34,6 +34,8 @@ def single_hist_test(mod_name, set_num):
     transients_x = np.arange(0, len(transients[set_num, :]), 20)
 
     mod = load_model(mod_name) 
+    if hasattr(mod, 'filter') and callable(getattr(mod, 'filter', None)):
+        b_set, t_set = mod.filter(b_set, t_set)
     predicted_vals = mod.regression_fit(b_set, t_set)
 
     # Plot histogram
@@ -66,6 +68,8 @@ def multi_hist_test(mod_name, count_num):
             new_set, ori_set = load_dataset(graph_list[i+j])
             t_set, b_set = new_set
             transients, bounds = ori_set
+            if hasattr(mod, 'filter') and callable(getattr(mod, 'filter', None)):
+                b_set, t_set = mod.filter(b_set, t_set)
             predicted_vals = mod.regression_fit(b_set, t_set)
             axs[i,j].hist(b_set, bins=BINS, weights=t_set, edgecolor='black', linewidth=1.2)
             axs[i,j].plot(b_set, predicted_vals, 'r')
@@ -80,6 +84,8 @@ def all_hist_test(mod_name):
         new_set, ori_set = load_dataset(i)
         t_set, b_set = new_set
         transients, bounds = ori_set
+        if hasattr(mod, 'filter') and callable(getattr(mod, 'filter', None)):
+            b_set, t_set = mod.filter(b_set, t_set)
         predicted_vals = mod.regression_fit(b_set, t_set)
         plt.hist(b_set, bins=BINS, weights=t_set, edgecolor='black', linewidth=1.2)
         plt.plot(b_set, predicted_vals, 'r') 

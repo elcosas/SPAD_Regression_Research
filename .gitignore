@@ -2,3 +2,4 @@ venv/
 proprietary/
 .ipynb_checkpoints/
 **/__pycache__
+**.sh
