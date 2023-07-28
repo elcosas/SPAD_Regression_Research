@@ -4,3 +4,4 @@ proprietary/
 **/__pycache__
 **.sh
 **.zip
+depth_maps/
