@@ -1,7 +1,14 @@
+# Python & Jupyter
 venv/
-proprietary/
 .ipynb_checkpoints/
 **/__pycache__
+
+# Proprietary files
+proprietary/
+
+# Random shell scripts
 **.sh
+
+# Output files
 **.zip
 depth_maps/
