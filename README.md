@@ -9,13 +9,17 @@ The use of equi-depth histograms (EDH) to model photon arrival times in SPAD sen
 ## Installation
 The project can be installed using git via:
 ```bash
-    git clone https://github.com/elcosas/SPAD_Regression_Research.git
+git clone https://github.com/elcosas/SPAD_Regression_Research.git
 ```
-All libraries required for installation can be installed through pip using `requirements.txt`
-(**TODO:** add minimal required requirements.txt)
+All libraries required for installation can be installed through pip using `max-requirements.txt`
 ```bash
-    pip install -r requirements.txt
+pip install -r max-requirements.txt
 ```
+or by using `min-requirements.txt` to avoid installing Jupyterlab dependencies
+```bash
+pip install -r min-requirements.txt
+```
+
 ## Usage (Notebooks)
 First, once inside the project folder, use `cd notebooks` to change to the notebooks directory. The notebooks contain the various expermentations done with the sample data provided as well as 
 different parametic and non-parametic regression methods tested with the sample data. the notebooks themselves can be viewed by running `jupyter lab` and then opening `localhost:8888/lab/` in your
@@ -27,11 +31,11 @@ the writeup) have been split into 2 folders for EDHs and EWHs, use `cd {hist_typ
 to the directory of your choosing\
 Each directory contains a file named `hist_test_run.py` which takes 3 arguments and can be used via the following syntax:
 ```bash
-    python3 hist_test_run.py {test_type} {regression_method} {data_set_#}
+python3 hist_test_run.py {regression_method} {test_type} {data_set_#}
 ```
 Where:\
-`test_type`: which test to run, either "single", "multi", or "all"\
 `regression_method`: the method to use, either "gaussian", "lowess", or "kde"\
+`test_type`: which test to run, either "single", "multi", or "all"\
 `data_set_#`: the data set to use, only accounted for with the single test but still required (default data set ranges from 0-29)\
 (**TODO:** provide example outputs)
 
