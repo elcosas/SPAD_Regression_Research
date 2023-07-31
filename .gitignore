@@ -12,3 +12,6 @@ proprietary/
 # Output files
 **.zip
 depth_maps/
+
+# Legality pending
+src/gen_img_bounds.py
