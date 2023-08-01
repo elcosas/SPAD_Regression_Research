@@ -35,8 +35,8 @@ def load_model(mod_name):
 
 def load_dataset(set_num):
     """loads dataset # passed"""
-    transients = np.load('../dataset/transients_interp.npy')
-    bounds = np.load('../dataset/edh_boundaries.npy')
+    transients = np.load('../dataset/transients.npy')
+    bounds = np.load('../dataset/boundaries.npy')
     return bounds[set_num, :], transients[set_num, :]
 
 def gen_vals(b_set):

@@ -35,8 +35,8 @@ def load_model(mod_name):
 
 def load_dataset(set_num):
     """loads dataset # passed"""
-    bounds = np.load('../proprietary/edh_boundaries.npy')[set_num, :]
-    transients = np.load('../proprietary/transients_interp.npy')[set_num, :]
+    bounds = np.load('../dataset/boundaries.npy')[set_num, :]
+    transients = np.load('../dataset/transients.npy')[set_num, :]
     t_set = np.array(
         [np.mean(arr) for arr in np.array_split(transients, BINS)]
     )

@@ -29,8 +29,8 @@ def main():
 
 def load_data(set_num):
     """Loads the dataset for the passed #"""
-    b_set = np.load('../dataset/edh_boundaries.npy')[set_num, :]
-    t_set = np.load('../dataset/transients_interp.npy')[set_num, :]
+    b_set = np.load('../dataset/boundaries.npy')[set_num, :]
+    t_set = np.load('../dataset/transients.npy')[set_num, :]
     return b_set, t_set
 
 def compare_models(b_set, t_set, true_vals, x_preds, mode='ed'):
