@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import importlib
 import numpy as np
 import matplotlib.pyplot as plt
@@ -26,6 +28,9 @@ def main():
 
 def load_model(mod_name):
     """loads model name passed""" 
+    if mod_name == 'kde':
+        print('Error: kde regression is not avalible for equi-depth datasets')
+        exit(1)
     try:
         mod = importlib.import_module(f'models.{mod_name}')
     except ImportError:

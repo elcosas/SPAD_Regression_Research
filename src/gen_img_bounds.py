@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 Python file for generating boundaries and transient data from 3d
 numpy arrays of image data

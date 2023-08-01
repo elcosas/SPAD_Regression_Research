@@ -6,7 +6,7 @@
 ------------------------------------------------------------------------
 This repository contains various tests and jupyter notebook experimentations with various
 regression algorithms, mainly non-parametic, in order to better model the response curves of
-SPAD sensors from both EWH and EDH datasets
+SPAD sensors from both EWH and EDH datasets\
 ![example graph](visuals/example.png)\
 *Figure 1: Example graph of each regression model plotted against ground-truth data*
 

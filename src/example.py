@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import numpy as np
 import matplotlib.pyplot as plt
 from models import gaussian, lowess, kde
@@ -27,9 +29,8 @@ def main():
     plt.plot(x, lowess_vals, 'g', linestyle='--', label='lowess regression')
     plt.plot(x, kde_vals, 'r', linestyle='--', label='kde regression')
     plt.legend() 
-    plt.title(f'Modeling SPAD Data With Regression')
-    plt.show()
-    plt.savefig(f'example.png')
+    plt.title('Modeling SPAD Data With Regression')
+    plt.savefig('example.png')
 
 def load_dataset(set_num):
     """loads dataset # passed"""
