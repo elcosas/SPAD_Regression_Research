@@ -15,3 +15,9 @@ depth_maps/
 
 # Legality pending
 src/gen_img_bounds.py
+
+# Ignore draft templates and metadata
+paper/*.md
+paper/*.aux
+paper/*.log
+paper/*.pdf
