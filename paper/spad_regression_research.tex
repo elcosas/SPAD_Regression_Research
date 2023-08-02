@@ -3,7 +3,7 @@
 \author{Cole A. Saldanha}
 \date{\today}
 
-\usepackage{biblatex}
+\usepackage[backend=biber,style=apa]{biblatex}
 \addbibresource{references.bib}
 
 \begin{document}
@@ -13,5 +13,63 @@
 bla bla blah
 \end{abstract}
 
+\section{Introduction}
+
+\section{Background}
+
+One of the main issues with attempting to model with simple regression methods, such as 
+least squares regression, is that it requires initial knowledge about the distribution of
+the data. Despite the fact that the incoming photons arrivals coming toward the SPAD sensor 
+follow the rules of a poisson distribution, the actual photon intensity levels that are captured 
+by the sensor does not (\cite{ingle2019high}). This unfortunately means that although the 
+photon arrival data will always contain a peak when the sensor detects the laser pulse, the
+distribution of the data will always vary, and may not follow a uniform distribution but
+could instead be bimodel or multimodel. With simple regression methods not being a good 
+potential solution, we will have to resort to more complex forms of regression known
+as non-parametic regression. Unlike parametic regression models such a linear and polynomial
+least squares regression, which rely on knowing the distribution of the data ahead of time,
+non-parametic regression methods instead determine the number of parameters in the function
+via the change in each datapoint provided (\cite{mahoud2019parametic}). The downside of 
+non-parametic regression is that it requires much more computation time, needing to calculate
+every point in the dataset. This ends up being a nonproblem for this scenario though,
+since the training set already is only 31 points (or even lower) and only needs to predict
+points in a fixed domain. This opens the door to a much larger bandwidth of potential methods, 
+and is the key idea behind the choosing of three main methods looked at in this experiment.
+
+\section{Method 1: Lowess Regression}
+Lowess regression (also known as LOESS) is a non-parametic regression method that, instead 
+of resolving into one large function, iterates through each x-value in the dataset, and 
+estimates a linear regression equation around the points in a set window. Points are 
+weighted in each window based on how close they are to the point being tested, with 
+higher-weighted points having more influence on the regression line (\cite{Figueira_2021}). 
+This lends the model to being able to act similarly to other non-parametic models in adapting
+to a dataset's distribution, while also making use of a less computationally complex algorithm
+in linear regression for fitting. For testing against the transient and boundary data, we
+made use of the library \emph{Moepy}, which is an implementation of the original LOWESS model 
+developed in FORTRAN in 1979 (\cite{ayrton_bourn_2021_4812979}). For best results with the
+limited amount of data points avalible, we specifically set \verb|frac=0.1| to only have window
+sizes that include 10\% of the points in each window, \verb|robust_iters=0| so the algorithm
+doesn't decrease the weight of what it would consider outliers, and \verb|num_fits| was set
+to default as to operate local regression on every point in the dataset. The model was
+then plotted against the ground-truth data, which can be seen in \emph{figure \#}. As shown
+in the figure, for both the equi-width and equi-depth datasets, the regression model does
+a rather good job at modelling the distribution. However, there are some rather noticable flaws.
+In the equi-width data the model fails to overfit the datapoints and such has a large error
+between the local maximums of both the estimated and ground-truth datasets. In the equi-depth
+data the model ends up overfitting slightly and creating un-realistic dips below zero near large
+changes in slope. Looking at the depth map in \emph{figure \#}, lowess regression does suceed
+rather well at recreating the depth of the image, even going as far as providing more depth details
+in some areas compared to the equi-depth data. However, some oversaturation and noise is caused
+due to the overfitting of the regression model on the equi-depth data.
+
+\section{Method 2: Gaussian Process Regression}
+
+\section{Method 3: Kernel Density Estimation}
+
+\section{Results}
+
+\section{Conclusion}
+
+\nocite{*}
 \printbibliography
 \end{document}
