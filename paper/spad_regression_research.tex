@@ -80,7 +80,19 @@ since the training set already is only 31 points (or even lower) and only needs 
 points in a fixed domain. This opens the door to a much larger bandwidth of potential methods, 
 and is the key idea behind the choosing of three main methods looked at in this experiment.
 
-\section{Method 1: Lowess Regression}
+\section{Methodology}
+The focus of this paper is to look at the qualitative and visual comparisons between
+three different non-parametic regression methods: Gaussian Process regression, Lowess
+regression, and Kernel Density Estimation, and ground-truth photon arrival time data.
+We will be using a dataset of 29 different ground-truth photon arrival times
+(transients) and their respective equi-depth boundaries detected during exposure time.
+Both equi-width and equi-depth histograms will be constructed for each dataset and converted
+to estimated points in order to perform regression. Although the EWH were already found
+to be inferior, they will still be looked at for for better visual comprehension and 
+comparison. A depth map will also be constructed to compare each regression model
+against just using equi-depth bins to determine depth.
+
+\subsection{Method 1: Lowess Regression}
 Lowess regression (also known as LOESS) is a non-parametic regression method that, instead 
 of resolving into one large function, iterates through each x-value in the dataset, and 
 estimates a linear regression equation around the points in a set window. Points are 
@@ -106,7 +118,7 @@ rather well at recreating the depth of the image, even going as far as providing
 in some areas compared to the equi-depth data. However, some oversaturation and noise is caused
 due to the overfitting of the regression model on the equi-depth data.
 
-\section{Method 2: Gaussian Process Regression}
+\subsection{Method 2: Gaussian Process Regression}
 Gaussian Process (GP) regression is another non-parametic regression method that, in simplest
 form, attempts to find the most accurate function over a variety of different potential functions.
 This is done through the use of a kernel function to find the covariance between each point, which
@@ -135,7 +147,7 @@ smooth resoponse curve that closely matches the local maximum of the ground-trut
 map shown in \emph{figure \#} is also impressive, again minus some points of oversaturation
 caused by overfitting.
 
-\section{Method 3: Kernel Density Estimation}
+\subsection{Method 3: Kernel Density Estimation}
 Another way we can look at this problem is instead of estimating a curve for photon intensity
 over exposure time, we can observe the photon response curve as a measure of the probability of 
 photon readings over exposure time. This would allow for us to use Kernel Density Estimation (KDE)
@@ -189,8 +201,8 @@ single-photon 3D cameras even further.
 \section{Acknowledgements}
 Thank you to Kaustubh Sadekar and the rest of 
 \href{https://www.computational.camera/team}{PSU's Computational Imaging Lab Team} for providing
-both code and educational resources. Huge thank you to Daphne Kurzenhauser for guiding and
-advising me throughout the course of this research project.
+both code and educational resources. Huge thank you to my mentor Daphne Kurzenhauser for guiding 
+and advising me throughout the course of this research project.
 
 \printbibliography
 \end{document}
