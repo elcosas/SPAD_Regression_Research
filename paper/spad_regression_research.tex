@@ -3,7 +3,11 @@
 \author{Cole A. Saldanha}
 \date{\today}
 
+\usepackage{float}
 \usepackage{hyperref}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\graphicspath{{../visuals/graphs}}
 \usepackage[backend=biber,style=apa]{biblatex}
 \addbibresource{references.bib}
 
@@ -107,14 +111,32 @@ limited amount of data points avalible, we specifically set \verb|frac=0.1| to o
 sizes that include 10\% of the points in each window, \verb|robust_iters=0| so the algorithm
 doesn't decrease the weight of what it would consider outliers, and \verb|num_fits| was set
 to default as to operate local regression on every point in the dataset. The model was
-then plotted against the ground-truth data, which can be seen in \emph{figure \#}. As shown
-in the figure, for both the equi-width and equi-depth datasets, the regression model does
+then plotted against the ground-truth data, which can be seen in \emph{figure 1}. 
+\begin{figure}[H]
+\begin{subfigure}[h]{0.5\linewidth}
+\includegraphics[width=\linewidth]{lowess_ewh_graph}
+\caption{EWH}
+\end{subfigure}
+\hfill
+\begin{subfigure}[h]{0.5\linewidth}
+\includegraphics[width=\linewidth]{lowess_edh_graph}
+\caption{EDH}
+\end{subfigure}
+\caption{Lowess regression plotted against EW \& ED datasets}
+\end{figure}
+As shown in the figure, for both the equi-width and equi-depth datasets, the regression model does
 a rather good job at modelling the distribution. However, there are some rather noticable flaws.
 In the equi-width data the model fails to overfit the datapoints and such has a large error
 between the local maximums of both the estimated and ground-truth datasets. In the equi-depth
 data the model ends up overfitting slightly and creating un-realistic dips below zero near large
-changes in slope. Looking at the depth map in \emph{figure \#}, lowess regression does suceed
-rather well at recreating the depth of the image, even going as far as providing more depth details
+changes in slope. 
+\begin{figure}[H]
+\centering
+\includegraphics{lowess_depthmap}
+\caption{Depthmap using Lowess regression}
+\end{figure}
+Looking at the depth map in \emph{figure 2}, lowess regression does suceed rather well at 
+recreating the depth of the image, even going as far as providing more depth details
 in some areas compared to the equi-depth data. However, some oversaturation and noise is caused
 due to the overfitting of the regression model on the equi-depth data.
 
@@ -137,15 +159,32 @@ it would have much less effectiveness with the equi-depth datapoints as the diff
 points convulge at the peak of the laser thus skewing the mean. This lead to us using the 
 Rational Quadratic (RQ) function as our kernel function. The RQ function is rather similar in 
 both form and functionality to the RBF, with the difference of taking on an extra parameter 
-$\alpha$, which determines the possible variation $l$ can adjust to. This kernel function ends 
-up working much better for both the equi-width and equi-depth datasets, as seen in \emph{figure \#},
-as we can set $\alpha$ to be the ratio of the minimum difference of $x$ over the maximum difference 
-of $x$ to allow for variations in fitting throughout the response curve. Both scikit learn's 
-\verb|GaussianProcessorRegressor()| and \verb|RationalQuadratic()| classes were used in order
-to easily test this regression in python (\cite{scikit-learn}). This ends up giving a incredibly 
-smooth resoponse curve that closely matches the local maximum of the ground-truth data. The depth
-map shown in \emph{figure \#} is also impressive, again minus some points of oversaturation
-caused by overfitting.
+$\alpha$, which determines the possible variation $l$ can adjust to. 
+\begin{figure}[H]
+\begin{subfigure}[h]{0.5\linewidth}
+\includegraphics[width=\linewidth]{gaussian_ewh_graph}
+\caption{EWH}
+\end{subfigure}
+\hfill
+\begin{subfigure}[h]{0.5\linewidth}
+\includegraphics[width=\linewidth]{gaussian_edh_graph}
+\caption{EDH}
+\end{subfigure}
+\caption{Gaussian Process regression plotted against EW \& ED datasets}
+\end{figure}
+This kernel function ends up working much better for both the equi-width and equi-depth datasets, 
+as seen in \emph{figure 3}, as we can set $\alpha$ to be the ratio of the minimum difference of 
+$x$ over the maximum difference of $x$ to allow for variations in fitting throughout the 
+response curve. Both scikit learn's \verb|GaussianProcessorRegressor()| and 
+\verb|RationalQuadratic()| classes were used in order to easily test this regression in python 
+(\cite{scikit-learn}). This ends up giving a incredibly smooth resoponse curve that closely 
+matches the local maximum of the ground-truth data. The depth map shown in \emph{figure 4} 
+is also impressive, again minus some points of oversaturation caused by overfitting.
+\begin{figure}[H]
+\centering
+\includegraphics{gaussian_depthmap}
+\caption{Depthmap using Gaussian Process regression}
+\end{figure}
 
 \subsection{Method 3: Kernel Density Estimation}
 Another way we can look at this problem is instead of estimating a curve for photon intensity
@@ -161,25 +200,64 @@ class to implement this method (\cite{virtanen2020scipy}), mainly due to it's ea
 and higher performance for smaller datasets (\cite{VanderPlas_2023}). The bandwidth for the
 model was set to $0.05$ (or rather $0.05$ multiplied by the standard deviation due to how
 the class works) in order to allow for some overfitting, again due to the limited set.
-The equi-depth graph shown in \emph{figure \#} shows a decent attempt of modeling the response
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{kde_edh_graph}
+\caption{Kernel Density Estimation plotted against ED dataset}
+\end{figure}
+The equi-depth graph shown in \emph{figure 5} shows a decent attempt of modeling the response
 curve, with the smoothness of the model being mostly accurate outside of the high amounts
 of "wiggly" fits where ambient light should be. One important thing to mention is that 
 KDE can't be used for the equi-width dataset without heavy modification, as all the points
-arrive at equal intervals. Looking at the depth map in \emph{figure \#}, while their is a lot
+arrive at equal intervals. Looking at the depth map in \emph{figure 6}, while their is a lot
 less oversaturation, the model fails to model as much depth compared to either LOWESS or GP.
+\begin{figure}[H]
+\centering
+\includegraphics{kde_depthmap}
+\caption{Depthmap using Kernel Density Estimation}
+\end{figure}
 
 \section{Results}
 Along with comparing the graphs of each regression method against the ground-truth data,
 error statistics were also calculated for both equi-width and equi-depth in order to 
 have quantitative data to make comparisons. Four statistics were calculated with help of
 scikit learn's regression error functions (\cite{scikit-learn}): coefficient of determination
-($R^2$), mean squared error (MSE), max value error, and peak error. Looking at the equi-width
-statistics in \emph{figure \#}, we can see that, although not by a large margin, GP had
-better quantitative results than LOWESS. Similarly, in \emph{figure \#}, we can see this lead
-improve by a larger margin, even when compared to KDE. In fact, LOWESS's $R^2$ actually fell
-below zero, and had a much higher error stats due to the large dips below zero at each
-large change in slope. If a method had been implemented to prevent LOWESS from falling below
-zero, it might have been a much less computationally expensive alternative to GP regression.
+($R^2$), mean squared error (MSE), max value error, and peak error. 
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{
+\begin{tabular}{l|l|l|}
+\cline{2-3}
+                                                        & gaussian               & lowess                 \\ \hline
+\multicolumn{1}{|l|}{Coefficient of Determination (R2)} & 0.8009545141717576     & 0.6030621202394134     \\ \hline
+\multicolumn{1}{|l|}{Mean Squared Error}                & 1.0425674355239912e-06 & 2.0790951658226772e-06 \\ \hline
+\multicolumn{1}{|l|}{Max Error}                         & 0.007852506269561368   & 0.010754308473284957   \\ \hline
+\multicolumn{1}{|l|}{Peak Error}                        & 0.007850089280617817   & 0.010744692981616531   \\ \hline
+\end{tabular}
+}
+\caption{Error statistics for EWH}
+\end{table}
+Looking at the equi-width statistics in \emph{table 1}, we can see that, although not 
+by a large margin, GP had better quantitative results than LOWESS. Similarly, in 
+\emph{table 2}, we can see this lead improve by a larger margin, even when compared to KDE. 
+In fact, LOWESS's $R^2$ actually fell below zero, and had a much higher error stats due to 
+the large dips below zero at each large change in slope. If a method had been implemented to 
+prevent LOWESS from falling below zero, it might have been a much less computationally expensive 
+alternative to GP regression.
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{
+\begin{tabular}{l|l|l|l|}
+\cline{2-4}
+                                                        & gaussian               & lowess                & kde                   \\ \hline
+\multicolumn{1}{|l|}{R2}                                & 0.984733622701605      & -0.015483069257797633 & 0.46294427914834313   \\ \hline
+\multicolumn{1}{|l|}{Mean Squared Error}                & 7.996276712079517e-08  & 5.318932880737122e-06 & 2.81300931438835e-06  \\ \hline
+\multicolumn{1}{|l|}{Max Error}                         & 0.0015863146232056053  & 0.011393197052572267  & 0.0052443981426180215 \\ \hline
+\multicolumn{1}{|l|}{Peak Error}                        & 0.00013488165733672314 & 0.0004277378621173611 & 0.0006406705077052141 \\ \hline
+\end{tabular}
+}
+\caption{Error statistics for EDH}
+\end{table}
 
 \section{Conclusion}
 Overall, each of the three non-parametic regression models tested in this experiment succedded 

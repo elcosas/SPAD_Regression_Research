@@ -25,7 +25,7 @@ def main():
     new_set = np.array(new_set)
 
     plt.imshow(new_set)
-    plt.show()
+    plt.savefig(f'{argv[2]}_depthmap.png')
 
 def load_args(file_name, mod_name):
     """Loads filename and regression module"""
