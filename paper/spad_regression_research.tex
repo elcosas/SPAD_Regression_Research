@@ -3,6 +3,7 @@
 \author{Cole A. Saldanha}
 \date{\today}
 
+\usepackage{amsmath}
 \usepackage{float}
 \usepackage{hyperref}
 \usepackage{subcaption}
@@ -65,7 +66,7 @@ pulse will have much smaller widths and thus much smaller time intervals, making
 accurate prediction of the ToF of the laser pulse. This also helps with regression by
 including more data points near large changes in slope.
 
-One of the main issues with attempting to model with simple regression methods, such as 
+One of the ain issues with attempting to model with simple regression methods, such as 
 least squares regression, is that it requires initial knowledge about the distribution of
 the data. Despite the fact that the incoming photons arrivals coming toward the SPAD sensor 
 follow the rules of a poisson distribution, the actual photon intensity levels that are captured 
@@ -151,13 +152,21 @@ the most important aspects that does need to carefully considered, however is th
 function used, as it ultimately defines the smoothness and fitting of the predicted function.
 The most commonly used kernel, due to it's "universal" properties and simplicity, is the
 Radial Basis Function (RBF) kernel (also known as the Squared Exponential kernel or Gaussian
-kernel), and can be defined as: (equation goes here) where $l$ is the "lengthscale", aka the
+kernel), and can be defined as: 
+\begin{align*}
+    k(x,x')=exp(-\frac{(x-x')^{2}}{2l^{2}})
+\end{align*}
+where $l$ is the "lengthscale", aka the
 maximum distance where two points are considered "similar" and not outliers (\cite{Duvenaud}). 
 an easy method for finding the length scale that best fits our dataset would be to find the 
 mean difference between each $x$ point, and while this would work for the equi-width data,
 it would have much less effectiveness with the equi-depth datapoints as the differences between 
 points convulge at the peak of the laser thus skewing the mean. This lead to us using the 
-Rational Quadratic (RQ) function as our kernel function. The RQ function is rather similar in 
+Rational Quadratic (RQ) function as our kernel function. 
+\begin{align*}
+    k(x,x')=(1+\frac{(x-x')^{2}}{2\alpha l^{2}})^{-\alpha}
+\end{align*}
+The RQ function is rather similar in 
 both form and functionality to the RBF, with the difference of taking on an extra parameter 
 $\alpha$, which determines the possible variation $l$ can adjust to. 
 \begin{figure}[H]
@@ -191,8 +200,11 @@ Another way we can look at this problem is instead of estimating a curve for pho
 over exposure time, we can observe the photon response curve as a measure of the probability of 
 photon readings over exposure time. This would allow for us to use Kernel Density Estimation (KDE)
 to estimate the probability density function of the data, which can then scaled to fit the 
-original photon intensity data. The KDE function can be defined as (equation goes here) where
-$K()$ is a kernel function passed (\cite{chen2018lecture}). Unlike in GP regression, the 
+original photon intensity data. The KDE function can be defined as 
+\begin{align*}
+    p(x)=\frac{1}{nh}\sum_{i=1}^{n}K(\frac{X_{i}-x}{h})
+\end{align*}
+where $K()$ is a kernel function passed (\cite{chen2018lecture}). Unlike in GP regression, the 
 objective of the kernel function is to determine the weight of the point based on the number 
 of points under the function's curve. $h$ is the bandwidth which, similar to the lengthscale 
 in an RBF, defines the smoothness and fitting. we ended up using scipy's \verb|gaussian_kde()| 
@@ -282,5 +294,6 @@ Thank you to Kaustubh Sadekar and the rest of
 both code and educational resources. Huge thank you to my mentor Daphne Kurzenhauser for guiding 
 and advising me throughout the course of this research project.
 
+\nocite{*}
 \printbibliography
 \end{document}
