@@ -33,9 +33,12 @@ python3 example.py 0
 to generate the same graph shown in *Figure 1*!
 
 ## Usage (Notebooks)
-First, once inside the project folder, use `cd notebooks` to change to the notebooks directory. The notebooks contain the various expermentations done with the sample data provided as well as 
-different parametic and non-parametic regression methods tested with the sample data. the notebooks themselves can be viewed by running `jupyter lab` and then opening `localhost:8888/lab/` in your
-prefered browser
+The main `Notebook.ipynb` file contains the various expermentations done with the sample data provided as well as different parametic and 
+non-parametic regression methods tested with the sample data. Once inside the project folder, the notebook can be viewed and tested
+by running:
+```bash
+jupyter lab Notebook.ipynb
+```
 
 ## Usage (Scripts)
 The repository also contains various scripts that can be used to plot the three regression models on various datasets, generate error statistcs files for the regression models,
