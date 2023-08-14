@@ -9,6 +9,9 @@ proprietary/
 # Random shell scripts
 **.sh
 
+# Personal TODO's
+TODO.md
+
 # Output files
 **.zip
 depth_maps/
