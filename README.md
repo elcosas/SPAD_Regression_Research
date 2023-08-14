@@ -32,7 +32,7 @@ python3 example.py 0
 ```
 to generate the same graph shown in *Figure 1*!
 
-## Usage (Notebooks)
+## Usage (Notebook)
 The main `Notebook.ipynb` file contains the various expermentations done with the sample data provided as well as different parametic and 
 non-parametic regression methods tested with the sample data. Once inside the project folder, the notebook can be viewed and tested
 by running:
