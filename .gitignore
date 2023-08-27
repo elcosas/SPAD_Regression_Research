@@ -9,8 +9,9 @@ proprietary/
 # Random shell scripts
 **.sh
 
-# Personal TODO's
+# Personal
 TODO.md
+JOURNAL.md
 
 # Output files
 **.zip
