@@ -38,7 +38,7 @@ def oracle_edh(tr, n_edh):
 
   return edh_bins+1
 
-def gen_dataset(bins):
+def gen_dataset(bins=32, cycles=1, resolution=100000, scene_depth=2.5, ambient_step=0.5):
     # constants
     c = 3e8 # Speed of light in m/s
     
@@ -49,8 +49,8 @@ def gen_dataset(bins):
     # d-ToF SPAD Laser properties
     T = 100*1e-9 # Laser time period in s
     FWHM = 2.317925*1e-9 # Full width half maximum of the laser pulse (Controls the pulse width)
-    N_tbins = 100000 # Resolution of the laser pulse
-    N_cycles = 1
+    N_tbins = resolution # Resolution of the laser pulse
+    N_cycles = cycles
     
     
     # Calculating dependent variables
@@ -65,9 +65,9 @@ def gen_dataset(bins):
     
     # Setting scene parameters (extrinsic parameters)
     
-    gt_depth = 2.5 # scene distance in meters
+    gt_depth = scene_depth # scene distance in meters
     alpha_sig = 0.5 # Number of signal photons per laser cycle
-    alpha_bg = 0.5 # Number of ambient/ background photons per laser cycle accross all bins
+    alpha_bg = ambient_step # Number of ambient/ background photons per laser cycle accross all bins
     
     # Computing the time of flight for given distance and laser parameters
     tof =  2*gt_depth/c
@@ -96,4 +96,4 @@ def gen_dataset(bins):
     tr2 = tr*alpha_sig + alpha_bg/N_tbins
     gt_edh_bins = oracle_edh(tr2, N_edh_bins)
 
-    return gt_edh_bins[np.newaxis, :], (tr2*N_cycles)[np.newaxis, :]
+    return gt_edh_bins, tr2*N_cycles
