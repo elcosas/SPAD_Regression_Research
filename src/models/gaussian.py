@@ -13,5 +13,5 @@ def regression_fit(b_set, t_set, x_pred):
         alpha_bounds='fixed'
     )
     gaussian_reg = GaussianProcessRegressor(kernel=kernel).fit(b_set.reshape(-1, 1), t_set)
-    return gaussian_reg.predict(x_pred.reshape(-1, 1))
-
+    predicted = gaussian_reg.predict(x_pred.reshape(-1, 1))
+    return np.clip(predicted, 0, np.max(predicted))

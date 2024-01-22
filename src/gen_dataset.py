@@ -38,7 +38,7 @@ def oracle_edh(tr, n_edh):
 
   return edh_bins+1
 
-def gen_dataset(bins=32, cycles=1, resolution=100000, scene_depth=2.5, ambient_step=0.5):
+def gen_dataset(bins=32, cycles=1, resolution=100000, scene_depth=2.5, ambient_step=0.5, fwhm=2.317925*1e-9, t=100*1e-9):
     # constants
     c = 3e8 # Speed of light in m/s
     
@@ -47,8 +47,8 @@ def gen_dataset(bins=32, cycles=1, resolution=100000, scene_depth=2.5, ambient_s
     ################################################################################
     
     # d-ToF SPAD Laser properties
-    T = 100*1e-9 # Laser time period in s
-    FWHM = 2.317925*1e-9 # Full width half maximum of the laser pulse (Controls the pulse width)
+    T = t # Laser time period in s
+    FWHM = fwhm # Full width half maximum of the laser pulse (Controls the pulse width)
     N_tbins = resolution # Resolution of the laser pulse
     N_cycles = cycles
     
